@@ -5,6 +5,8 @@ import com.vibhorpatil.allproject.dependencyinjection.data.local.DatabaseService
 import com.vibhorpatil.allproject.dependencyinjection.data.local.FileStorageService
 import com.vibhorpatil.allproject.dependencyinjection.data.remote.NetworkService
 import com.vibhorpatil.allproject.dependencyinjection.di.module.ApplicationModule
+import com.vibhorpatil.allproject.learnkotlincoroutine.LoggerClass
+import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiHelper
 import dagger.Component
 import javax.inject.Singleton
 
@@ -19,4 +21,8 @@ interface ApplicationComponent {
     fun getFileStorageService() : FileStorageService
 
     fun getNetworkService() : NetworkService
+
+    fun getApiHelper() : ApiHelper
+
+    fun getLoggerClass() : LoggerClass
 }

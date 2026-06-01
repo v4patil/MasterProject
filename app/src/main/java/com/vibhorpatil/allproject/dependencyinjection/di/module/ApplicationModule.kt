@@ -7,6 +7,9 @@ import com.vibhorpatil.allproject.dependencyinjection.di.ApplicationContext
 import com.vibhorpatil.allproject.dependencyinjection.di.BaseURL
 import com.vibhorpatil.allproject.dependencyinjection.di.DatabaseName
 import com.vibhorpatil.allproject.dependencyinjection.di.DatabaseVersion
+import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiHelper
+import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiHelperImpl
+import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.RetrofitBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -45,6 +48,10 @@ class ApplicationModule(val application: Application) {
     @Provides
     @Singleton
     fun provideHttpClient() : HttpClient = HttpClient()
+
+    @Provides
+    @Singleton
+    fun provideApiHelper() : ApiHelper = ApiHelperImpl(RetrofitBuilder.apiService)
 
 
 }
