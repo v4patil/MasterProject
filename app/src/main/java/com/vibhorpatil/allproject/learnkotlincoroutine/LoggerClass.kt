@@ -13,5 +13,9 @@ class LoggerClass @Inject constructor() {
             .forEach { user ->
                 Log.d("TAG", "logFlowData: ${user.name + " " + user.avatar + " " + user.email}")
             }
+        data.filterIsInstance<Int>()
+            .forEach {
+                Log.d("TAG", it.toString())
+            }
     }
 }

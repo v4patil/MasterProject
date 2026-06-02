@@ -2,12 +2,16 @@ package com.vibhorpatil.allproject.learnkotlincoroutine
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.vibhorpatil.allproject.AllProjectApplication
 import com.vibhorpatil.allproject.databinding.ActivityCoroutineBinding
 import com.vibhorpatil.allproject.dependencyinjection.di.component.ActivityComponent
 import com.vibhorpatil.allproject.dependencyinjection.di.component.DaggerActivityComponent
 import com.vibhorpatil.allproject.dependencyinjection.di.module.ActivityModule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoroutineActivity : AppCompatActivity() {
@@ -48,31 +52,45 @@ class CoroutineActivity : AppCompatActivity() {
 //        startActivity(Intent(this@CoroutineActivity, RoomDBActivity::class.java))
 //    }
 //
-//    fun startTimeoutActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, TimeoutActivity::class.java))
-//    }
-//
-//    fun startTryCatchActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, TryCatchActivity::class.java))
-//    }
-//
-//    fun startExceptionHandlerActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, ExceptionHandlerActivity::class.java))
-//    }
-//
-//    fun startIgnoreErrorAndContinueActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, IgnoreErrorAndContinueActivity::class.java))
-//    }
-//
-//    fun startLongRunningTaskActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, LongRunningTaskActivity::class.java))
-//    }
-//
-//    fun startTwoLongRunningTasksActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, TwoLongRunningTasksActivity::class.java))
-//    }
-//
-//    fun startBasicActivity(view: View) {
-//        startActivity(Intent(this@CoroutineActivity, BasicActivity::class.java))
-//    }
+    fun startTimeoutActivity(view: View) {
+        coroutineViewModel.doWithTimeOut()
+    }
+
+    fun startTimeoutOrNullActivity(view: View) {
+        coroutineViewModel.doWithTimeOutOrNull()
+    }
+
+    fun startTryCatchActivity(view: View) {
+        coroutineViewModel.doWithTryCatch()
+    }
+
+    fun startExceptionHandlerActivity(view: View) {
+        coroutineViewModel.doWithExceptionHandler()
+    }
+
+    fun startIgnoreErrorAndContinueActivity(view: View) {
+       coroutineViewModel.doIgnoreErrorAndContinue()
+    }
+
+    private suspend fun doLongRunningTask() {
+        withContext(Dispatchers.Default) {
+            // your code for doing a long running task
+            // Added delay to simulate
+            delay(5000)
+        }
+    }
+
+    fun startLongRunningTaskActivity(view: View) {
+        coroutineViewModel.doSingleLongRunningTask()
+    }
+
+    fun startTwoLongRunningTasksActivity(view: View) {
+        coroutineViewModel.doTwoLongRunningTask()
+    }
+
+    /** Below are the coroutine basics **/
+
+    fun startBasicActivity(view: View) {
+        Toast.makeText(this, "Below are the coroutine Baiscs", Toast.LENGTH_SHORT).show()
+    }
 }
