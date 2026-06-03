@@ -18,4 +18,8 @@ class LoggerClass @Inject constructor() {
                 Log.d("TAG", it.toString())
             }
     }
+
+    fun logMessage(msg: String){
+        Log.d("TAG", msg)
+    }
 }
