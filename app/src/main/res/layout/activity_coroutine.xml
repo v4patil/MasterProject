@@ -289,5 +289,40 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startExperimentOne"
+                android:text="@string/start_experiment_one"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startExperimentTwo"
+                android:text="@string/start_experiment_two"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="launchCoroutines"
+                android:text="@string/launch_coroutines"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="launchThreads"
+                android:text="@string/launch_threads"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

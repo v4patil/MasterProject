@@ -17,6 +17,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 class CoroutineActivity : AppCompatActivity() {
@@ -27,6 +29,8 @@ class CoroutineActivity : AppCompatActivity() {
     @Inject
     lateinit var loggerClass: LoggerClass
     lateinit var exceptionHandler : CoroutineExceptionHandler
+    private var numTasksExpOne = AtomicInteger(0)
+    private var numTasksExpTwo = AtomicInteger(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -329,6 +333,77 @@ After Task
 
     fun testBlocking(view: View) {
         coroutineViewModel.testBlocking()
+    }
+
+/** Coroutine Internals **/
+    fun startExperimentOne(view: View) {
+        experimentOne()
+    }
+
+    fun startExperimentTwo(view: View) {
+        experimentTwo()
+    }
+
+    fun launchCoroutines(view: View) {
+        launchCoroutines()
+    }
+
+    fun launchThreads(view: View) {
+        launchThreads()
+    }
+
+    private fun experimentOne() {
+        numTasksExpOne = AtomicInteger(0)
+        val threadPool = Executors.newFixedThreadPool(40)
+        val startTime = System.currentTimeMillis()
+
+        repeat(10_000) {
+            threadPool.execute {
+                longRunningTaskOne(startTime)
+            }
+        }
+    }
+
+    private fun experimentTwo() {
+        numTasksExpTwo = AtomicInteger(0)
+        val threadPool = Executors.newFixedThreadPool(4)
+        val startTime = System.currentTimeMillis()
+
+        repeat(4) {
+            threadPool.execute {
+                repeat(2500) {
+                    longRunningTaskTwo(startTime)
+                }
+            }
+        }
+    }
+
+    private fun longRunningTaskOne(startTime: Long) {
+        if (numTasksExpOne.incrementAndGet() == 10_000) {
+            loggerClass.logMessage("Experiment One : = ${System.currentTimeMillis() - startTime}")
+        }
+    }
+
+    private fun longRunningTaskTwo(startTime: Long) {
+        if (numTasksExpTwo.incrementAndGet() == 10_000) {
+            loggerClass.logMessage("Experiment Two : = ${System.currentTimeMillis() - startTime}")
+        }
+    }
+
+    private fun launchCoroutines() {
+        repeat(100_000) {
+            GlobalScope.launch {
+                delay(5000L)
+            }
+        }
+    }
+
+    private fun launchThreads() {
+        repeat(100_000) {
+            Thread {
+                Thread.sleep(5000L)
+            }.start()
+        }
     }
 
 
