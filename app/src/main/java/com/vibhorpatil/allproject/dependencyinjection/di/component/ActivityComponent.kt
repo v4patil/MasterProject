@@ -5,6 +5,7 @@ import com.vibhorpatil.allproject.dependencyinjection.di.module.ActivityModule
 import com.vibhorpatil.allproject.dependencyinjection.ui.home.HomeActivity
 import com.vibhorpatil.allproject.dependencyinjection.ui.login.LoginActivity
 import com.vibhorpatil.allproject.learnkotlincoroutine.CoroutineActivity
+import com.vibhorpatil.allproject.learnkotlinflow.FlowActivity
 import dagger.Component
 
 
@@ -17,4 +18,6 @@ interface ActivityComponent {
     fun inject(context: HomeActivity)
 
     fun inject(context: CoroutineActivity)
+
+    fun inject(context: FlowActivity)
 }

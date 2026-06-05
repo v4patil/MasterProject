@@ -1,5 +1,7 @@
 package com.vibhorpatil.allproject.learnkotlincoroutine.networkservice
 
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiHelper
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,5 +17,7 @@ object RetrofitBuilder {
     }
 
     val apiService: ApiService = getRetrofit().create(ApiService::class.java)
+
+    val flowApiService: FlowApiService = getRetrofit().create(FlowApiService::class.java)
 
 }

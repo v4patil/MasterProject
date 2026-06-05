@@ -7,6 +7,9 @@ import com.vibhorpatil.allproject.dependencyinjection.data.remote.NetworkService
 import com.vibhorpatil.allproject.dependencyinjection.di.module.ApplicationModule
 import com.vibhorpatil.allproject.learnkotlincoroutine.LoggerClass
 import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiHelper
+import com.vibhorpatil.allproject.learnkotlinflow.DefaultDispatcherProvider
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiHelper
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiHelperImpl
 import dagger.Component
 import javax.inject.Singleton
 
@@ -25,4 +28,8 @@ interface ApplicationComponent {
     fun getApiHelper() : ApiHelper
 
     fun getLoggerClass() : LoggerClass
+
+    fun getDefaultDispatcherProvider() : DefaultDispatcherProvider
+
+    fun getFlowApiHelper() : FlowApiHelper
 }
