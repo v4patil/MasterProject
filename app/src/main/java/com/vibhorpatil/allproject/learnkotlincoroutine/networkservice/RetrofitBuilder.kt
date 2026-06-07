@@ -18,6 +18,4 @@ object RetrofitBuilder {
 
     val apiService: ApiService = getRetrofit().create(ApiService::class.java)
 
-    val flowApiService: FlowApiService = getRetrofit().create(FlowApiService::class.java)
-
 }

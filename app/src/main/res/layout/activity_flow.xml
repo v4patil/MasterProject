@@ -13,6 +13,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+        </SearchView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/result" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

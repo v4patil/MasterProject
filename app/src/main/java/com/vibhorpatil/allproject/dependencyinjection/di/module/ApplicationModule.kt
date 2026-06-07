@@ -13,6 +13,7 @@ import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.RetrofitBu
 import com.vibhorpatil.allproject.learnkotlinflow.DefaultDispatcherProvider
 import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiHelper
 import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowApiHelperImpl
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.FlowRetrofitBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -62,7 +63,7 @@ class ApplicationModule(val application: Application) {
 
     @Provides
     @Singleton
-    fun provideFlowApiHelper() : FlowApiHelper = FlowApiHelperImpl(RetrofitBuilder.flowApiService)
+    fun provideFlowApiHelper() : FlowApiHelper = FlowApiHelperImpl(FlowRetrofitBuilder.flowApiService)
 
 
 }

@@ -14,10 +14,31 @@ import com.vibhorpatil.allproject.dependencyinjection.di.component.DaggerActivit
 import com.vibhorpatil.allproject.dependencyinjection.di.module.ActivityModule
 import com.vibhorpatil.allproject.learnkotlincoroutine.LoggerClass
 import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiUser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class FlowActivity : AppCompatActivity() {
+class FlowActivity : AppCompatActivity(), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    private lateinit var job: Job
+
     lateinit var binding: ActivityFlowBinding
 
     lateinit var activityComponent: ActivityComponent
@@ -38,8 +59,8 @@ class FlowActivity : AppCompatActivity() {
     }
 
     private fun getDependencies() {
-        activityComponent = DaggerActivityComponent.builder().
-                applicationComponent((application as AllProjectApplication).applicationComponent)
+        activityComponent = DaggerActivityComponent.builder()
+            .applicationComponent((application as AllProjectApplication).applicationComponent)
             .activityModule(ActivityModule(this))
             .build()
         activityComponent.inject(this)
@@ -53,14 +74,16 @@ class FlowActivity : AppCompatActivity() {
                         is UIState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                         }
+
                         is UIState.Success<*> -> {
                             binding.progressBar.visibility = View.GONE
 
                             val users = it.data as? List<ApiUser>
-                            users?.let{ list ->
+                            users?.let { list ->
                                 loggerClass.logFlowData(list)
                             }
                         }
+
                         is UIState.Error -> {
                             loggerClass.logMessage(it.error)
                         }
@@ -74,70 +97,103 @@ class FlowActivity : AppCompatActivity() {
         viewModel.startSingleNetworkCallActivity()
     }
 
-//    fun startSeriesNetworkCallsActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, SeriesNetworkCallsActivity::class.java))
-//    }
-//
-//    fun startParallelNetworkCallsActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, ParallelNetworkCallsActivity::class.java))
-//    }
-//
-//    fun startRoomDatabaseActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, RoomDBActivity::class.java))
-//    }
-//
-//    fun startCatchActivity(
-//        view: View) {
-//        startActivity(Intent(this@MainActivity, CatchActivity::class.java))
-//    }
-//
-//    fun startEmitAllActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, EmitAllActivity::class.java))
-//    }
-//
-//    fun startCompletionActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, CompletionActivity::class.java))
-//    }
-//
-//    fun startLongRunningTaskActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, LongRunningTaskActivity::class.java))
-//    }
-//
-//    fun startTwoLongRunningTasksActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, TwoLongRunningTasksActivity::class.java))
-//    }
-//
-//    fun startFilterActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, FilterActivity::class.java))
-//    }
-//
-//    fun startMapActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, MapActivity::class.java))
-//    }
-//
-//    fun startReduceActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, ReduceActivity::class.java))
-//    }
-//
-//    fun startSearchActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-//    }
-//
-//    fun startRetryActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, RetryActivity::class.java))
-//    }
-//
-//    fun startRetryWhenActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, RetryWhenActivity::class.java))
-//    }
-//
-//    fun startRetryExponentialBackoffActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, RetryExponentialBackoffActivity::class.java))
-//    }
-//
-//    fun startFlowOnActivity(view: View) {
-//        startActivity(Intent(this@MainActivity, FlowOnActivity::class.java))
-//    }
+    fun startSeriesNetworkCallsActivity(view: View) {
+        viewModel.startSeriesNetworkCallsActivity()
+    }
 
+    fun startParallelNetworkCallsActivity(view: View) {
+        viewModel.startParallelNetworkCallsActivity()
+    }
+
+    fun startRoomDatabaseActivity(view: View) {
+    }
+
+    fun startCatchActivity(view: View) {
+        viewModel.startCatchActivity()
+    }
+
+    fun startEmitAllActivity(view: View) {
+        viewModel.startEmitAllActivity()
+    }
+
+    fun startCompletionActivity(view: View) {
+        viewModel.startCompletionActivity()
+    }
+
+    fun startLongRunningTaskActivity(view: View) {
+        viewModel.startLongRunningTaskActivity()
+    }
+
+    fun startTwoLongRunningTasksActivity(view: View) {
+        viewModel.startTwoLongRunningTasksActivity()
+    }
+
+    fun startFilterActivity(view: View) {
+        viewModel.startFilterActivity()
+    }
+
+    fun startMapActivity(view: View) {
+        viewModel.startMapActivity()
+    }
+
+    fun startReduceActivity(view: View) {
+        viewModel.startReduceActivity()
+    }
+
+    fun startSearchActivity(view: View) {
+        setUpSearchStateFlow()
+    }
+
+    fun startRetryActivity(view: View) {
+        viewModel.startRetryActivity()
+    }
+
+    fun startRetryWhenActivity(view: View) {
+        viewModel.startRetryWhenActivity()
+    }
+
+    fun startRetryExponentialBackoffActivity(view: View) {
+        viewModel.startRetryExponentialBackoffActivity()
+    }
+
+    fun startFlowOnActivity(view: View) {
+        viewModel.startFlowOnActivity()
+    }
+
+    private fun setUpSearchStateFlow() {
+        launch {
+            binding.searchView.getQueryTextChangeStateFlow()
+                .debounce(300)
+                .filter { query ->
+                    if (query.isEmpty()) {
+                        binding.textViewResult.text = ""
+                        return@filter false
+                    } else {
+                        return@filter true
+                    }
+                }
+                .distinctUntilChanged()
+                .flatMapLatest { query ->
+                    dataFromNetwork(query)
+                        .catch {
+                            emitAll(flowOf(""))
+                        }
+                }
+                .flowOn(DefaultDispatcherProvider().default)
+                .collect { result ->
+                    binding.textViewResult.text = result
+                }
+        }
+    }
+
+    /**
+     * Simulation of network data
+     */
+    private fun dataFromNetwork(query: String): Flow<String> {
+        return flow {
+            delay(2000)
+            emit(query)
+        }
+    }
 
 }
