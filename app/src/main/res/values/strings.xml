@@ -31,4 +31,5 @@
     <string name="result">Result</string>
     <string name="check_logcat">Check Logcat</string>
     <string name="fold">fold</string>
+    <string name="title_activity_compose">ComposeActivity</string>
 </resources>

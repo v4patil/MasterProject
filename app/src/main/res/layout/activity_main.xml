@@ -28,4 +28,11 @@
         android:text="Flow Project"
         android:layout_margin="8dp"/>
 
+    <Button
+        android:id="@+id/btnCompose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Compose Project" />
+
 </LinearLayout>

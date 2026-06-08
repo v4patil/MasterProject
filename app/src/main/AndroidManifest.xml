@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllProject">
         <activity
+            android:name=".compose.ComposeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_compose"
+            android:theme="@style/Theme.AllProject" />
+         <activity
             android:name=".learnkotlinflow.FlowActivity"
             android:exported="false" />
         <activity
