@@ -14,6 +14,7 @@ import com.vibhorpatil.allproject.dependencyinjection.di.component.DaggerActivit
 import com.vibhorpatil.allproject.dependencyinjection.di.module.ActivityModule
 import com.vibhorpatil.allproject.learnkotlincoroutine.LoggerClass
 import com.vibhorpatil.allproject.learnkotlincoroutine.networkservice.ApiUser
+import com.vibhorpatil.allproject.learnkotlinflow.flownetworkservice.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -91,6 +92,55 @@ class FlowActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
         }
+
+        lifecycleScope . launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiStateStr.collect {
+                    when (it) {
+                        is UIState.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
+                        is UIState.Success<*> -> {
+                            binding.progressBar.visibility = View.GONE
+                            val users = it.data as? String
+                            users?.let { msg ->
+                                loggerClass.logMessage(msg)
+                            }
+                        }
+
+                        is UIState.Error -> {
+                            loggerClass.logMessage(it.error)
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope . launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiStateUser.collect {
+                    when (it) {
+                        is UIState.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
+                        is UIState.Success<*> -> {
+                            binding.progressBar.visibility = View.GONE
+
+                            val users = it.data as? List<User>
+                            users?.let { list ->
+                                loggerClass.logFlowData(list)
+                            }
+                        }
+
+                        is UIState.Error -> {
+                            loggerClass.logMessage(it.error)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun startSingleNetworkCallActivity(view: View) {
@@ -138,6 +188,10 @@ class FlowActivity : AppCompatActivity(), CoroutineScope {
 
     fun startReduceActivity(view: View) {
         viewModel.startReduceActivity()
+    }
+
+    fun startFoldActivity(view: View) {
+        viewModel.startFoldActivity()
     }
 
     fun startSearchActivity(view: View) {

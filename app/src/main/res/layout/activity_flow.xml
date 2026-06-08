@@ -123,6 +123,13 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="startFoldActivity"
+            android:text="@string/fold"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:onClick="startSearchActivity"
             android:text="@string/search"
             android:textColor="@android:color/white" />

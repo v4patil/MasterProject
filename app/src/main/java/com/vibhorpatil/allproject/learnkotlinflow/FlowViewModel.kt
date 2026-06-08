@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.fold
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.reduce
@@ -216,6 +217,14 @@ class FlowViewModel @Inject constructor(
         }
     }
 
+//    Difference between reduce() and fold()
+//    reduce : Uses the first element as the initial accumulator.
+//    fold : You provide the initial value.
+
+//    Important interview point
+//    reduce() throws an exception if the Flow is empty because it needs the first element as the starting accumulator.
+//    Use fold() when you need to handle empty flows safely:
+
     fun startReduceActivity() {
         viewModelScope.launch(dispatcherProvider.main) {
             _uiStateStr.value = UIState.Loading
@@ -226,8 +235,14 @@ class FlowViewModel @Inject constructor(
         }
     }
 
-    fun startSearchActivity() {
-        TODO("Not yet implemented")
+    fun startFoldActivity() {
+        viewModelScope.launch(dispatcherProvider.main) {
+            _uiStateStr.value = UIState.Loading
+            val result = (1..5).asFlow()
+                .fold(100) { a, b -> a + b }
+
+            _uiStateStr.value = UIState.Success(result.toString())
+        }
     }
 
     fun startRetryActivity() {

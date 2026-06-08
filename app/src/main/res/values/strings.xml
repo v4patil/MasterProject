@@ -30,4 +30,5 @@
     <string name="flow_on">FlowOn</string>
     <string name="result">Result</string>
     <string name="check_logcat">Check Logcat</string>
+    <string name="fold">fold</string>
 </resources>
